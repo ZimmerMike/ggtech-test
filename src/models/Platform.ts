@@ -1,7 +1,19 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
-const platformSchema = new mongoose.Schema({
-  // Define fields as per the schema provided.
+export interface IPlatform extends Document {
+  icon: string;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const movieSchema = new mongoose.Schema<IPlatform>({
+	icon: String,
+	title: String,
+  createdAt: Date,
+  updatedAt: Date,
 });
 
-export default mongoose.model('Platform', platformSchema);
+const Platform = mongoose.model('Platform', movieSchema);
+
+export default Platform;

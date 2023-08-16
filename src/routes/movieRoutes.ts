@@ -10,11 +10,11 @@ import {
 
 const router = express.Router();
 
-router.post('/', createMovie);
-router.get('/:id', getMovieById);
-router.post('/:id/clone', cloneMovie);
-router.delete('/:id', deleteMovie);
-router.post('/:id/reviews', createReview);
-router.get('/:id/reviews', getMovieReviews);
+router.post('/create', createMovie);
+router.get('movieId/:id/getOne', getMovieById);
+router.post('movieId/:id/clone', cloneMovie);
+router.delete('movieId/:id/delete', deleteMovie);
+router.post('movieId/:id/reviews', createReview);
+router.get('movieId/:id/reviews', getMovieReviews);
 
 export default router;

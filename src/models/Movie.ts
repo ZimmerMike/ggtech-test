@@ -1,7 +1,29 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
-const movieSchema = new mongoose.Schema({
-  // Define fields as per the schema provided.
+export interface IMovie extends Document {
+  title: string;
+  slug: string;
+  image: string;
+  director: string;
+  platforms: Array<Schema.Types.ObjectId>;
+  score: number;
+  createdAt: Date;
+  updatedAt: Date;
+  reviews: Array<Schema.Types.ObjectId>;
+}
+
+const movieSchema = new mongoose.Schema<IMovie>({
+	title: String,
+	slug: String,
+	image: String,
+  director: String,
+	platforms: [{ type: Schema.Types.ObjectId, ref: 'Platform' }],
+	score: Number,
+  createdAt: Date,
+  updatedAt: Date,
+	reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
 });
 
-export default mongoose.model('Movie', movieSchema);
+const Movie = mongoose.model('Movie', movieSchema);
+
+export default Movie;
