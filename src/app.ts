@@ -24,6 +24,9 @@ export class App {
   }
 
   private middleware(): void {
+    app.get('/', (req, res) => {
+      res.send('jpagina de inicio');
+    });
     app.use(cors());
     app.use(bodyParser.json());
     
