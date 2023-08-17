@@ -24,6 +24,9 @@ class App {
         this.middleware();
     }
     middleware() {
+        app.get('/', (req, res) => {
+            res.send('jpagina de inicio');
+        });
         app.use((0, cors_1.default)());
         app.use(body_parser_1.default.json());
         (0, db_connection_1.default)();
