@@ -4,7 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const platformSchema = new mongoose_1.default.Schema({
-// Define fields as per the schema provided.
+const movieSchema = new mongoose_1.default.Schema({
+    icon: String,
+    title: String,
+    createdAt: Date,
+    updatedAt: Date,
 });
-exports.default = mongoose_1.default.model('Platform', platformSchema);
+const Platform = mongoose_1.default.model('Platform', movieSchema);
+exports.default = Platform;

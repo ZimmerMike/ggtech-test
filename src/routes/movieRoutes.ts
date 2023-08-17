@@ -3,18 +3,20 @@ import {
   createMovie,
   getMovieById,
   cloneMovie,
-  deleteMovie,
-  createReview,
-  getMovieReviews,
+  deleteMovie
 } from '../controllers/movieController';
+import {
+  createReview,
+  getMovieReviews
+} from '../controllers/reviewController';
 
 const router = express.Router();
 
 router.post('/create', createMovie);
-router.get('movieId/:id/getOne', getMovieById);
-router.post('movieId/:id/clone', cloneMovie);
-router.delete('movieId/:id/delete', deleteMovie);
-router.post('movieId/:id/reviews', createReview);
-router.get('movieId/:id/reviews', getMovieReviews);
+router.get('/movie/:movieId/getOne', getMovieById);
+router.post('/movie/:movieId/clone', cloneMovie);
+router.delete('/movie/:movieId/delete', deleteMovie);
+router.post('/movie/:movieId/platform/:platformId/reviews', createReview);
+router.get('/movie/:movieId/reviews', getMovieReviews);
 
 export default router;

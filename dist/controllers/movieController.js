@@ -9,14 +9,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMovieReviews = exports.createReview = exports.deleteMovie = exports.cloneMovie = exports.getMovieById = exports.createMovie = void 0;
+exports.deleteMovie = exports.cloneMovie = exports.getMovieById = exports.createMovie = void 0;
+const movieService_1 = require("../services/movieService");
+const movieServie = new movieService_1.MovieService();
 // Import other necessary models and services
 const createMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Implement create movie logic
+    try {
+        const createdMovie = yield movieServie.createMovie(req.body);
+        return res.status(200).json({ data: createdMovie, message: 'Movie created succesfully!' });
+    }
+    catch (error) {
+        return res.status(400).send(error);
+    }
 });
 exports.createMovie = createMovie;
 const getMovieById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Implement get movie by ID logic
+    try {
+        const foundMovie = yield movieServie.getMovieById(req.params.movieId);
+        return res.status(200).json({ data: foundMovie, message: 'Movie found' });
+    }
+    catch (error) {
+        return res.status(400).send(error);
+    }
 });
 exports.getMovieById = getMovieById;
 const cloneMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,14 +38,12 @@ const cloneMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.cloneMovie = cloneMovie;
 const deleteMovie = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Implement delete movie logic
+    try {
+        yield movieServie.deleteMovie(req.params.movieId);
+        return res.status(200).json({ message: 'Movie was deleted successfully!' });
+    }
+    catch (error) {
+        return res.status(400).send(error);
+    }
 });
 exports.deleteMovie = deleteMovie;
-const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Implement create review logic
-});
-exports.createReview = createReview;
-const getMovieReviews = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Implement get movie reviews logic
-});
-exports.getMovieReviews = getMovieReviews;
