@@ -39,27 +39,27 @@ class ReviewService {
                         $match: {
                             movie: movieId
                         }
+                    } /*,
+                    {
+                      $lookup: {
+                        from: 'platforms',
+                        localField: 'platform',
+                        foreignField: '_id',
+                        as: 'platform',
+                      },
                     },
                     {
-                        $lookup: {
-                            from: 'platforms',
-                            localField: 'platform',
-                            foreignField: '_id',
-                            as: 'platform',
-                        },
+                      $group: {
+                        _id: '$platform',
+                        reviews: { $push: '$$ROOT' }
+                      }
                     },
                     {
-                        $group: {
-                            _id: '$platform',
-                            reviews: { $push: '$$ROOT' }
-                        }
-                    },
-                    {
-                        $project: {
-                            platform: { $arrayElemAt: ['$reviews.platform', 0] },
-                            reviews: 1,
-                        },
-                    },
+                      $project: {
+                        platform: { $arrayElemAt: ['$reviews.platform', 0] },
+                        reviews: 1,
+                      }
+                    }*/
                 ]);
                 return reviewsFound;
             }
