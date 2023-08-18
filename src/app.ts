@@ -7,31 +7,15 @@ import connectToDatabase from './db-connection';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-export class App {
-  private express: Application;
-  
-  constructor() {
-    this.express = express(); 
-    this.bootstrap();
-  }
+app.use('/api', movieRoutes);
+app.get('/', (req, res) => {
+  res.send('Hello world!');
+});
+app.use(cors());
+app.use(bodyParser.json());
 
-  public getExpress(): Application {
-    return this.express;
-  }
+app.listen(PORT, () => {
+  console.log(`Application listening on port ${PORT}`);
+});
 
-  private bootstrap(): void {
-    this.middleware();
-  }
-
-  private middleware(): void {
-    app.get('/', (req, res) => {
-      res.send('jpagina de inicio');
-    });
-    app.use(cors());
-    app.use(bodyParser.json());
-    
-    connectToDatabase();
-    
-    app.use('/api', movieRoutes);
-  }
-}
+connectToDatabase();
