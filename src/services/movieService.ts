@@ -1,17 +1,22 @@
 import { Exception } from "../domain/exception";
-import { MovieCreationBody } from "../interfaces/movie.interface";
-import Movie from "../models/Movie";
+import { Movie, MovieCreationBody } from "../interfaces/movie.interface";
+import MovieSchema from "../domain/models/Movie";
+import { ReviewService } from "./reviewService";
+
+const reviewService = new ReviewService();
 
 export class MovieService {
+  
 	public async createMovie(movieData: MovieCreationBody) {
 		try {
-			this.validatePlatform(movieData.platform);
+			this.validatePlatform(movieData.platforms);
 			movieData.createdAt = new Date();
 			movieData.slug = this.generateSlug(movieData.title);
-			const movieCreated = await Movie.create(movieData);
+			const movieCreated = await MovieSchema.create(movieData);
 	
 			return movieCreated;
 		} catch (error) {
+      console.log(error)
 			throw new Exception('ERROR_CREATING_MOVIE', 'Ocurrió un error al crear la pelicula.');
 		}
 	}
@@ -28,9 +33,27 @@ export class MovieService {
 		}
 	}
 
+  public async updateMovieReviewsAndScore(movieId: string): Promise<void> {
+    try {
+      const movieData: Movie = await MovieSchema.findById(movieId);
+      const averageScore = await reviewService.calculateMovieScore(movieData.reviews);
+      await MovieSchema.findByIdAndUpdate(movieData._id, { score: averageScore });
+    } catch (error) {
+      throw new Exception('ERROR_CALCULATING_SCORE', 'Ocurrió un error al calcular la puntuación de la pelicula.');
+    }
+  }
+  
+  public async updateReviewsInMovie(movieId: string, newReview: string) {
+    try {
+      await MovieSchema.findByIdAndUpdate(movieId, { reviews: { $push: newReview } });
+    } catch (error) {
+      throw new Exception('ERROR_ADDING_REVIEW', 'Ocurrió un error al agregar la reseña a la pelicula.');
+    }
+  }
+
 	public async getMovieById(movieId: string) {
 		try {
-			const foundMovie = await Movie.findById(movieId);
+			const foundMovie = await MovieSchema.findById(movieId);
 
 			return foundMovie;
 		} catch (error) {
@@ -40,7 +63,7 @@ export class MovieService {
 
 	public async deleteMovie(movieId: string) {
 		try {
-			await Movie.deleteOne({ _id: movieId });
+			await MovieSchema.deleteOne({ _id: movieId });
 		} catch (error) {
 			throw new Exception('ERROR_REMOVING_MOVIE', 'Ocurrió un error al eliminar la pelicula.');
 		}

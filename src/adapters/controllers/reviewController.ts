@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ReviewService } from '../services/reviewService';
+import { ReviewService } from '../../services/reviewService';
 
 const reviewServie = new ReviewService();
 

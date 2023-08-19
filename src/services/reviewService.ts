@@ -1,6 +1,6 @@
 import { Exception } from "../domain/exception";
 import { ReviewCreationBody } from "../interfaces/review.interface";
-import Review from "../models/Review";
+import Review, { IReview } from "../domain/models/Review";
 
 export class ReviewService {
 
@@ -17,6 +17,26 @@ export class ReviewService {
 			throw new Exception('ERROR_POSTING_REVIEW', 'Ocurrió un error al publicar la reseña.');
     }
   }
+
+  public async getScoresByMultipleReviewIds(reviewsIds: Array<string>) {
+    try {
+      const scoresFound = await Review.find({ _id: { $in: reviewsIds } }, { score: 1 });
+
+      return scoresFound;
+    } catch (error) {
+      throw new Exception('ERROR_RETRIEVING_REVIEWS', 'Ocurrió un error al obtener la información de las reseñas.');
+    }
+  }
+
+	public async calculateMovieScore(reviewsIds: Array<string>): Promise<number> {
+		const scores: Array<IReview> = await this.getScoresByMultipleReviewIds(reviewsIds);
+    let result = 0;
+    for (const score of scores) {
+      result += score.score;
+    }
+
+    return result / scores.length;
+	}
 
   public async getReviewsByMovie(movieId: string) {
     try {
