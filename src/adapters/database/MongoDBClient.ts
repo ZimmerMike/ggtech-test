@@ -9,7 +9,7 @@ export class MongoDBClient {
 
       console.log('Connected to database!');
     } catch (error) {
-      throw new Exception('MONGODB_CONNECTION_ERROR', 'An error ocurred connecting to database.');
+      throw new Exception('An error ocurred connecting to database.');
     }
   }
 
