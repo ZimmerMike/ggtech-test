@@ -10,5 +10,5 @@ export interface IMovie {
 	score: number;
 	createdAt: Date;
 	updatedAt: Date;
-	reviews: Array<string | IReviewsByPlatforms>;
+	reviews: Array<IReviewsByPlatforms | string>;
 }

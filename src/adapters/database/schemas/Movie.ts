@@ -16,7 +16,7 @@ const movieSchema = new mongoose.Schema({
     default: new Date()
   },
   updatedAt: Date,
-	reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
+	reviews: [{ type: Schema.Types.Mixed }]
 });
 
 const MovieModel = mongoose.model<IMovie>('Movie', movieSchema);

@@ -3,6 +3,10 @@ import { mongoConfig } from "../../config/mongoConfig";
 import { Exception } from "../../domain/exception";
 
 export class MongoDBClient {
+
+  /**
+   * @description Creates connection to MongoDB database
+   */
   public connect(): void {
     try {
       mongoose.connect(mongoConfig.uri);
@@ -13,6 +17,9 @@ export class MongoDBClient {
     }
   }
 
+  /**
+   * @description Closes connection to MongoDB database.
+   */
   public async disconnect(): Promise<void> {
     mongoose.connection.close();
     console.log('Disconnected from database');

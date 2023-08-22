@@ -1,4 +1,5 @@
 import { Application } from 'express';
+
 import { MovieController } from '../controllers/movieController';
 import { ReviewController } from '../controllers/reviewController';
 
@@ -21,8 +22,5 @@ export class Routes {
 
     app.route('/api/movie/:movieId/platform/:platformId/reviews/create')
       .post(this.reviewController.createReview);
-
-    app.route('/api/movie/:movieId/getMovieReviews')
-      .get(this.reviewController.getMovieReviews);
   }
 }
