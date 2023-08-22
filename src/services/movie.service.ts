@@ -114,6 +114,11 @@ export class MovieService {
 	public async getMovieById(movieId: string): Promise<IMovie> {
 		try {
 			const movieFound = await movieRepository.findMovieById(movieId);
+
+			if (!movieFound) {
+				throw new Exception(ErrorMessages.ERROR_MOVIE_NOT_FOUND, `Movie with id '${movieId}' was not found, verify the information.`);
+			}
+
 			const movieReviewsByPlatform = await reviewRepository.getMovieReviewGroupedByPlatform(movieId);
 			movieFound.reviews = movieReviewsByPlatform;
 
