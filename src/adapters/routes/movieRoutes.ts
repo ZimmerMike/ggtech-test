@@ -11,6 +11,9 @@ export class Routes {
     app.route('/api/create')
       .post(this.movieController.createMovie);
 
+    app.route('/api/getAll')
+      .get(this.movieController.getAllMovies)
+
     app.route('/api/movie/:movieId/getOne')
       .get(this.movieController.getMovieById);
 

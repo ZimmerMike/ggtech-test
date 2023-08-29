@@ -2,7 +2,7 @@ import { Exception } from "../domain/exception";
 import { IReview, IReviewsByPlatforms } from "../domain/models/ReviewModel";
 import { MongoReviewRepository } from "../adapters/database/repositories/MongoReviewRepository";
 import { MongoMovieRepository } from "../adapters/database/repositories/MongoMovieRepository";
-import { ErrorMessages } from "../responseMessages";
+import { ErrorMessages } from "../domain/responseMessages";
 
 const movieRepository = new MongoMovieRepository();
 const reviewRepository = new MongoReviewRepository();

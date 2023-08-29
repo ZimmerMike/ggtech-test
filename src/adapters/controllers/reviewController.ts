@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ReviewService } from '../../services/review.service';
-import { SuccessMessages } from '../../responseMessages';
+import { SuccessMessages } from '../../domain/responseMessages';
 
 const reviewServie = new ReviewService();
 

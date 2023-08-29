@@ -1,4 +1,4 @@
-import { ErrorMessages } from "../responseMessages";
+import { ErrorMessages } from "../domain/responseMessages";
 import { Exception } from "../domain/exception";
 import { IMovie } from "../domain/models/MovieModel";
 import { MongoMovieRepository } from "../adapters/database/repositories/MongoMovieRepository";
@@ -69,7 +69,7 @@ export class MovieService {
 			}
 
 			const clonedMovieData = this.createClonedMovieData(movieToClone);
-			
+
 			const clonedMovie = await this.createMovie(clonedMovieData);
 
 			return clonedMovie;
@@ -125,6 +125,22 @@ export class MovieService {
 			return movieFound;
 		} catch (error) {
 			throw new Exception(ErrorMessages.ERROR_RETRIEVING_MOVIE, `An error ocurred while retrieving movie information. ${error} - ${error.description}`);
+		}
+	}
+
+	/**
+	 * @description Gets all movies in database and can receive how many elements want to retrieve and what page of this pagination must be retrieved.
+	 * @param {number} moviesPerPage - Movies that must be retrieved per page in the query.
+	 * @param {number} pageNumber - Page number with elements that should be retrieved.
+	 * @returns {Promise<Array<IMovie>>} All registered movies in collection according with pagination data provided in query params.
+	 */
+	public async getAllMovies(moviesPerPage: number, pageNumber: number): Promise<Array<IMovie>> {
+		try {
+			const moviesFound = await movieRepository.getAllMovies(moviesPerPage, pageNumber);
+
+			return moviesFound;
+		} catch (error) {
+			throw new Exception(ErrorMessages.ERROR_RETRIEVING_MOVIE_ARRAY, `An error occurred while retrueving movie array. ${error} - ${error.description}`);
 		}
 	}
 }

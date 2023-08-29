@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 
 import { MovieService } from '../../services/movie.service';
-import { SuccessMessages } from '../../responseMessages';
+import { SuccessMessages } from '../../domain/responseMessages';
+import { ApiConstants } from '../../domain/constants/api-constants';
 
 const movieService = new MovieService();
 
@@ -11,6 +12,18 @@ export class MovieController {
       const createdMovie = await movieService.createMovie(req.body);
     
       return res.status(200).json({ data: createdMovie, message: SuccessMessages.MOVIE_CREATED });
+    } catch (error) {
+      return res.status(400).send({ error: error.message, description: error.description });
+    }
+  }
+
+  public async getAllMovies(req: Request, res: Response) {
+    try {
+      const moviesPerPage = parseInt(req.query.itemsPerPage?.toString()) || ApiConstants.DEFAULT_MOVIE_PER_PAGE;
+      const pageNumber = parseInt(req.query.pageNumber?.toString()) || ApiConstants.DEFAULT_PAGE_NUMBER;
+      const foundMovies = await movieService.getAllMovies(moviesPerPage, pageNumber);
+
+      return res.status(200).json({ data: foundMovies, message: SuccessMessages.MOVIE_ARRAY_RETRIEVED });
     } catch (error) {
       return res.status(400).send({ error: error.message, description: error.description });
     }

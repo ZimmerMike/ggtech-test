@@ -38,6 +38,18 @@ export class MongoMovieRepository implements MovieRepository {
     return await MovieModel.findById(movieId);
   }
 
+	/**
+	 * @description Gets all movies in database and can receive how many elements want to retrieve and what page of this pagination must be retrieved.
+	 * @param {number} moviesPerPage - Movies that must be retrieved per page in the query.
+	 * @param {number} pageNumber - Page number with elements that should be retrieved.
+	 * @returns {Promise<Array<IMovie>>} All registered movies in collection according with pagination data provided in query params.
+	 */
+  async getAllMovies(moviesPerPage: number, pageNumber: number): Promise<Array<IMovie>> {
+    const skipAmount = (pageNumber - 1) * moviesPerPage;
+
+    return await MovieModel.find({}).limit(moviesPerPage).skip(skipAmount);
+  }
+
   /**
    * @description Updates a movie adding new review and updating new average score.
    * @param {string} movieId - ObjectId from movie that will be updated.
